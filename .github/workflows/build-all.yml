@@ -1,0 +1,26 @@
+name: Build all targets
+on:
+  workflow_call:
+    inputs:
+      book_dir:
+        required: false
+        type: string
+        default: 'src'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    container: epuber/epuber:0
+    steps:
+    - name: Install Git to fetch submodules
+      run: apk add git git-lfs
+
+    - name: Checkout code
+      uses: actions/checkout@v2
+      with:
+        submodules: 'true'
+        lfs: 'true'
+        token: ${{ secrets.MY_PAT }}
+
+    - run: epuber build --release
+      working-directory: ${{ inputs.book_dir }}
