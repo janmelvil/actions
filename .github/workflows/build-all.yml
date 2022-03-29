@@ -6,6 +6,9 @@ on:
         required: false
         type: string
         default: 'src'
+    secrets:
+      MY_PAT:
+        required: true
 
 jobs:
   test:
